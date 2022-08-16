@@ -10,12 +10,13 @@ class CompleteReport(SimpleReport):
 
     @classmethod
     def generate(self, products):
-        complete_report = self.get_qty_products_by_company(products)
+        companies = self.get_qty_products_by_company(products)
         simple_report = super().generate(products)
+        complete_report = ""
+        for name, qty in companies:
+            complete_report += f"- {name}: {qty}\n"
         return (
             f"{simple_report}\n"
             f"Produtos estocados por empresa:\n"
-            f"- {complete_report[0][0]}: {complete_report[0][1]}\n"
-            f"- {complete_report[1][0]}: {complete_report[1][1]}\n"
-            f"- {complete_report[2][0]}: {complete_report[2][1]}\n"
+            f"{complete_report}"
         )
